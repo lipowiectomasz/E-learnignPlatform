@@ -41,35 +41,19 @@
 
 </head>
 <body>
-<?php
-    session_start();
-    if($_SESSION['loggedin']!=true){
-        $location = "Location: index.php?status=2";
-        header($location);
-    }
-
-    $user = $_SESSION['user'];
-
-    require 'dbInfo.php';
-	$polaczenie = mysqli_connect($dbhost, $dbuser, $dbpassword, $dbname);
-    mysqli_query($polaczenie, "SET NAMES 'utf8'");
-
-    $query = "SELECT users.login AS 'login', logi.adresIp, logi.data, logi.godzina, logi.przegladarka, logi.systemOp FROM logi, users WHERE users.id = logi.idUser";
-    $rezultat = mysqli_query($polaczenie, $query) or die ("Logi logowania");
-    echo "<p>Logowania uzytkownikow:</p>";
-    echo "<table><tr><th>Login</th><th>Adres ip</th><th>Data</th><th>Godzina</th><th>Przegladarka</th><th>System</th></tr>";
-    while($rekord = mysqli_fetch_array($rezultat)){
-        $login = $rekord['login'];
-        $adresIp = $rekord['adresIp'];
-        $godzina = $rekord['godzina'];
-        $data = $rekord['data'];
-        $przegladarka = $rekord['przegladarka'];
-        $system  = $rekord['systemOp'];
-        echo "<tr><td>$login</td><td>$adresIp</td><td>$godzina</td><td>$data</td><td>$przegladarka</td><td>$system</td></tr>";
-    }
-    echo "</table>";
-    
-    mysqli_close($polaczenie);
-?>
+    <?php
+        require dirname(__DIR__) . '/PlatformaELearningowa/vendor/autoload.php';
+        use panels\panelRenderer;
+        session_start();
+        if($_SESSION['loggedin']!=true){
+            $location = "Location: index.php?status=2";
+            header($location);
+        }
+        $logs = new panelRenderer();
+    ?>
+    <p>Logowania uzytkownikow:</p>
+    <table><tr><th>Login</th><th>Adres ip</th><th>Data</th><th>Godzina</th><th>Przegladarka</th><th>System</th></tr>
+        <?php $logs->makeAdminsLogs(); ?>
+    </table>
 </body>
 </html>

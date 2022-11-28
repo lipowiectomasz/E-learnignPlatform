@@ -98,64 +98,27 @@
 		<p>Konfigurator lekcji</p>
 	</header>
     <?php
+		require dirname(__DIR__) . '/PlatformaELearningowa/vendor/autoload.php';
+		use configurator\configurator;
         session_start();
-
         if($_SESSION['loggedin']!=true){
             $location = "Location: index.php?status=2";
             header($location);
         }
-
         $user = $_SESSION['user'];
-        require 'dbInfo.php';
-        $polaczenie = mysqli_connect($dbhost, $dbuser, $dbpassword, $dbname);
-        mysqli_query($polaczenie, "SET NAMES 'utf8'");
-
-        $query = "SELECT id, tytul FROM formularze WHERE typ=1 AND autor='$user';";
-        $rezultat = mysqli_query($polaczenie, $query);
-
-        $tests = array();
-        $i = 1;
-        if ($rezultat->num_rows > 0){
-            while($rekord = mysqli_fetch_array($rezultat)){
-                $id = $rekord['id'];
-                $title = $rekord['tytul'];
-
-                $tests[$i][0] = $title;
-                $tests[$i][1] = $id;
-                $i++;
-            } 
-        }
-        echo '
-        <section id="mainContainer">
-            <div id="nav">
-                <p> Zalogowano - '.$user.' </p>
-                <div class="navButton"><a href="wyloguj.php">Wyloguj</a></div>
-                ';
-                    if($i > 1){
-                        echo "<p>Twoje lekcje: </p>";
-                        foreach( $tests as $t)
-                        {
-                            echo '<div class="navButtonSplit">
-                                <a href="konfiguruj.php?typ=1&id='.$t[1].'" target="border">'.$t[0].'</a>
-                                <a href="usunFormularz.php?dec=0&typ=1&id='.$t[1].'" target="border">Usun</a>
-                            </div>';
-                        }
-                    }
-                    $query = "SELECT id FROM formularze ORDER BY id DESC LIMIT 1;";
-                    $rezultat = mysqli_query($polaczenie, $query) or die ("Niepowodzenie w pobraniu ostatniego indeksu formularza");
-                    $lastIndex=mysqli_fetch_array($rezultat);
-                    $lastIndex=$lastIndex['id']+1;
-            echo '
-                <div class="navButton"><a href="konfiguruj.php?new=1&typ=1&i='.$lastIndex.'" target="border">Dodaj nową</a></div>
-                <div class="navButton"><a href="panelSzkoleniowiec.php">Wróć</a></div>
-            </div>
-            
-            <div id="main">
-                <iframe name="border" width="100%" height="100%" style="border:none;">
-                </iframe>
-            </div>
-        </section>';
-        mysqli_close($polaczenie);
-    ?>
+	?>
+	<section id="mainContainer">
+		<div id="nav">
+			<p> Zalogowano - <?php echo $user; ?> </p>
+			<div class="navButton"><a href="wyloguj.php">Wyloguj</a></div>
+			<?php
+				$lessonConfigurator = new configurator();
+				$lessonConfigurator->generateLessonConfigurator($user);
+			?>
+		<div id="main">
+			<iframe name="border" width="100%" height="100%" style="border:none;">
+			</iframe>
+		</div>
+	</section>
 </body>
 </html>

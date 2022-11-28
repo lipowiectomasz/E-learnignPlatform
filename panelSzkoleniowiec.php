@@ -83,20 +83,19 @@
 		<p>Panel szkoleniowca</p>
 	</header>
 	<section id="mainContainer">
-		<div id="nav">
-			<p> Zalogowano - 
+		<div id="nav">	
 			<?php
-				session_start();
-				if($_SESSION['loggedin']!=true){
+			    session_start();
+				if(!isset($_SESSION['loggedin'])&&$_SESSION['loggedin']!=true){
 					$location = "Location: index.php?status=2";
 					header($location);
 				}
 				else{
 					$user = $_SESSION['user'];
-					echo $user;
+					echo "<p> Zalogowano - $user </p>";
 				}
 			?>
-			</p>
+			
 			<div class="navButton"><a href="wyloguj.php">Wyloguj</a></div>
 			<div class="navButton"><a href="konfigurujTest.php">Konfiguruj testy</a></div>
 			<div class="navButton"><a href="konfigurujLekcje.php">Konfiguruj lekcje</a></div>

@@ -1,4 +1,7 @@
 <?php
+    require dirname(__DIR__) . '/PlatformaELearningowa/vendor/autoload.php';
+    use databaseOperator\operator;
+
     session_start();
     $typ = $_GET['typ'];
     $idFormularz = $_GET['id'];
@@ -21,48 +24,42 @@
         ';
     }
     else{
-        require 'dbInfo.php';
-        $polaczenie = mysqli_connect($dbhost, $dbuser, $dbpassword, $dbname);
-        mysqli_query($polaczenie, "SET NAMES 'utf8'");
-
+        $base = new operator();
         if($typ==0){
 
             //usun informacje z tabeli odpowiedziUsera
             $query = "DELETE odpowiedziUsera FROM odpowiedziUsera INNER JOIN podejsciaDoTestu ON odpowiedziUsera.idPodejscia = podejsciaDoTestu.id WHERE podejsciaDoTestu.idFormularz=$idFormularz";
-            $rezultat = mysqli_query($polaczenie, $query) or die ("Problem przy usuwaniu informacji z tabeli odpowiedziUsera");
+            $base->iuOperation($query);
 
             //usun informacje z tabeli podejscia do testu
             $query = "DELETE FROM podejsciaDoTestu WHERE idFormularz=$idFormularz";
-            $rezultat = mysqli_query($polaczenie, $query) or die ("Problem przy usuwaniu informacji z tabeli podejscia do testu");
+            $base->iuOperation($query);
 
             //usun informacje z tabeli odpowiedzi
             $query = "DELETE odpowiedzi FROM odpowiedzi INNER JOIN elementy ON odpowiedzi.idElement = elementy.id WHERE elementy.idFormularza=$idFormularz";
-            $rezultat = mysqli_query($polaczenie, $query) or die ("Problem przy usuwaniu informacji z tabeli odpowiedzi");
-
+            $base->iuOperation($query);
+            
             //usun informacje z tabeli elementy
             $query = "DELETE FROM elementy WHERE idFormularza=$idFormularz";
-            $rezultat = mysqli_query($polaczenie, $query) or die ("Problem przy usuwaniu informacji z tabeli elementy");
-
+            $base->iuOperation($query);
+            
             //usun informacje z tabeli formularze
             $query = "DELETE FROM `formularze` WHERE id=$idFormularz";
-            $rezultat = mysqli_query($polaczenie, $query) or die ("Problem przy usuwaniu informacji z tabeli formularze");
-            mysqli_close($polaczenie);
+            $base->iuOperation($query);
 
         }
         if($typ==1 || $typ==2){
             //usun informacje z tabeli odpowiedzi
             $query = "DELETE odpowiedzi FROM odpowiedzi INNER JOIN elementy ON odpowiedzi.idElement = elementy.id WHERE elementy.idFormularza=$idFormularz";
-            $rezultat = mysqli_query($polaczenie, $query) or die ("Problem przy usuwaniu informacji z tabeli odpowiedzi");
-
+            $base->iuOperation($query);
+            
             //usun informacje z tabeli elementy
             $query = "DELETE FROM elementy WHERE idFormularza=$idFormularz";
-            $rezultat = mysqli_query($polaczenie, $query) or die ("Problem przy usuwaniu informacji z tabeli elementy");
-
+            $base->iuOperation($query);
+            
             //usun informacje z tabeli formularze
             $query = "DELETE FROM `formularze` WHERE id=$idFormularz";
-            $rezultat = mysqli_query($polaczenie, $query) or die ("Problem przy usuwaniu informacji z tabeli formularze");
-
-            mysqli_close($polaczenie);
+            $base->iuOperation($query);
         }
         echo '<script> 
                 window.onload=function(){

@@ -1,16 +1,15 @@
 <?php
-	$login = $_POST['login'];
-	$pass = $_POST['pass'];
+	require dirname(__DIR__) . '/PlatformaELearningowa/vendor/autoload.php';
+	use databaseOperator\operator;
+
+	$login = htmlentities ($_POST['login'], ENT_QUOTES, "UTF-8"); // rozbrojenie potencjalnej bomby w zmiennej $user
+	$pass = htmlentities ($_POST['pass'], ENT_QUOTES, "UTF-8"); // rozbrojenie potencjalnej bomby w zmiennej $pass
 	$typ = $_GET['typ'];
 
-	require 'dbInfo.php';
-	$polaczenie = mysqli_connect($dbhost, $dbuser, $dbpassword, $dbname);
-	mysqli_query($polaczenie, "SET NAMES 'utf8'");
-
+	$register = new operator();
 	$query = "INSERT INTO users (userType, login, pass) VALUES ( $typ, \"$login\", \"$pass\");";
-	$rezultat = mysqli_query($polaczenie, $query) or die ("Blad w dodawaniu usera");
+	$register->iuOperation($query);
 
-	mysqli_close($polaczenie);
 	echo 'Pomyslnie dodano usera';
 	if($typ==2){
 		header("Location: index.php");

@@ -112,12 +112,13 @@
 		<p>Mają oni do dyspozycji następujące funkcje: </p>
 		<ul>
 			<li>Administrator - rejestracja szkoleniowców, przeglądanie logów (Przykładowy administrator: admin-admin).</li>
-			<li>Szkoleniowiec - konfiguraowanie testów, lekcji oraz podsumowań, przeglądanie wyników kursantów i logów (Przykładowy szkoleniowiec coach1-pass1.</li>
+			<li>Szkoleniowiec - konfigurowanie testów, lekcji oraz podsumowań, przeglądanie wyników kursantów i logów (Przykładowy szkoleniowiec coach1-pass1).</li>
 			<li>Kursant - przeglądanie lekcji i podsumowań, branie udziału w testach i generowanie wyników w PDF (Przykładowy kursant user1-pass1).</li>
 		</ul>
 	</div>
 
 	<?php	
+		require dirname(__DIR__) . '/PlatformaELearningowa/vendor/autoload.php';
 		session_start();
 		if(IsSet($_SESSION ['try'])){
 			if($_SESSION ['try'] >= 3){
