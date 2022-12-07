@@ -128,6 +128,13 @@
                         }
                     }
                     if($amt >= 1){
+
+                        echo "<h1>$element</h1>";
+                        echo '<p>'.$tresc.'<p>';
+                        if($grafika!='-'){
+                        echo "<img width=\"400\" height=\"200\" src=\"Images/$grafika\"/>";
+                        }
+
                         $query = "SELECT odpowiedz FROM odpowiedziUsera WHERE elementId=$id AND idPodejscia=$podejscieId;";
                         $previousAnswers = $this->base->selectRowsOperation($query);
                         foreach($previousAnswers as $rekordPokazPodejscie){

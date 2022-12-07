@@ -50,13 +50,13 @@
         $user = $_SESSION['user'];
         $logs = new panelRenderer();
     ?>
-    echo "<p>Logowania kursantow:</p>";
-    echo "<table><tr><th>Login</th><th>Adres ip</th><th>Data</th><th>Godzina</th><th>Przegladarka</th><th>System</th></tr>";
-    <?php $logs->makeUsersLogs(); ?>
+    <p>Logowania kursantow:</p>
+    <table><tr><th>Login</th><th>Adres ip</th><th>Data</th><th>Godzina</th><th>Przegladarka</th><th>System</th></tr>
+        <?php $logs->makeUsersLogs(); ?>
     </table>
     <p>Logowania podejscia do lekcji:</p>
     <table><tr><th>Login</th><th>Godzina</th><th>Data</th><th>Tytul</th></tr>
-    <?php $logs->makeTestsLogs($user); ?>
+        <?php $logs->makeTestsLogs($user); ?>
     </table>
 </body>
 </html>
