@@ -10,4 +10,4 @@ Mają oni do dyspozycji następujące funkcje:
 
 -Kursant - przeglądanie lekcji i podsumowań, branie udziału w testach i generowanie wyników w PDF (Przykładowy kursant user1-pass1).
 
-Live demo: http://tomlip002.pl/elearn/index.php
+Live demo: http://tomlip002.pl/PlatformaELearningowa/index.php
